@@ -18,13 +18,9 @@ public class Mdb2 implements IDataBase{
         String insertTableSQL = "INSERT INTO PUBLIC.PRODUCTOS"
                 + "(NOMBRE, CANTIDAD, VALOR_UNITARIO) VALUES"
                 + "(?,?,?)";
-        
-        String url = "jdbc:postgresql://190.60.242.160:5432/desarrollo";
-        String username = "postgres";
-        String password = "clinicaDEV-2022*";
         try {
-            Connection connection = DriverManager.getConnection(url, username, password);
-            PreparedStatement ps = connection.prepareStatement(insertTableSQL);
+            ConnDB conn = new ConnDB();
+            PreparedStatement ps = conn.conexionPSQL().prepareStatement(insertTableSQL);
             
             ps.setString(1, db.getNombre());
             ps.setInt(2, db.getCantid());
@@ -32,6 +28,8 @@ public class Mdb2 implements IDataBase{
             ps.executeUpdate();
 
             System.out.println("Record is inserted into Public.PRODUCTOS_PostgreSQL table!");
+            ps.close();
+            conn.conexionPSQL().close();
 
         } catch (SQLException e) {
 

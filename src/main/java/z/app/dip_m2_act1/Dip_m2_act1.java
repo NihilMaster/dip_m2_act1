@@ -34,7 +34,7 @@ public class Dip_m2_act1 extends JFrame{
     }
     
     public Dip_m2_act1(){
-        GridLayout grilla = new GridLayout(5,2);
+        GridLayout grilla = new GridLayout(6,2,10,10);
         setLayout(grilla);
         add(new JLabel("Nombre: "));
         this.no_tf=new JTextField();
@@ -72,6 +72,8 @@ public class Dip_m2_act1 extends JFrame{
         });
         
         i_b.addActionListener((ActionEvent e) -> {
+            //SELECT nombre, SUM(cantidad) FROM `productos` GROUP BY nombre;
+            Inventario i = new Inventario();
             System.out.println("Inventario");
         });
     }

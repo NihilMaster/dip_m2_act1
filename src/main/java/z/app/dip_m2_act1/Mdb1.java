@@ -22,13 +22,9 @@ public class Mdb1 implements IDataBase{
         String insertTableSQL = "INSERT INTO PRODUCTOS"
                 + "(NOMBRE, CANTIDAD, VALOR_UNITARIO) VALUES"
                 + "(?,?,?)";
-        
-        String url = "jdbc:mysql://localhost:3306/dip_m2_act1";
-        String username = "root";
-        String password = "";
         try {
-            Connection connection = DriverManager.getConnection(url, username, password);
-            PreparedStatement ps = connection.prepareStatement(insertTableSQL);
+            ConnDB conn = new ConnDB();
+            PreparedStatement ps = conn.conexionMySQL().prepareStatement(insertTableSQL);
             
             ps.setString(1, db.getNombre());
             ps.setInt(2, db.getCantid());
@@ -36,6 +32,8 @@ public class Mdb1 implements IDataBase{
             ps.executeUpdate();
 
             System.out.println("Record is inserted into PRODUCTOS_MySQL table!");
+            ps.close();
+            conn.conexionMySQL().close();
 
         } catch (SQLException e) {
 

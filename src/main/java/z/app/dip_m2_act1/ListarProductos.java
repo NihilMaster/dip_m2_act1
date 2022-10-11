@@ -1,7 +1,3 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
- */
 package z.app.dip_m2_act1;
 
 import java.awt.BorderLayout;
@@ -78,13 +74,9 @@ public class ListarProductos{
     
     private ArrayList<String[]> postgres(){
         ArrayList<String[]> r = new ArrayList<>();
-        
-        String url = "jdbc:postgresql://190.60.242.160:5432/desarrollo";
-        String username = "postgres";
-        String password = "clinicaDEV-2022*";
         try {
-            Connection conndbpost = DriverManager.getConnection(url,username,password);
-            Statement statement = conndbpost.createStatement();
+            ConnDB conn = new ConnDB();
+            Statement statement = conn.conexionPSQL().createStatement();
             ResultSet rs = statement.executeQuery("SELECT * FROM public.productos");
             
             while (rs.next()) {
@@ -102,7 +94,7 @@ public class ListarProductos{
 
             rs.close();
             statement.close();
-            conndbpost.close();
+            conn.conexionPSQL().close();
         } catch (SQLException ex) {
             System.out.println("Error, no se ha podido cargar PostgreSQL JDBC Driver:\n"+ex);
         }
@@ -116,8 +108,8 @@ public class ListarProductos{
         String username = "root";
         String password = "";
         try {
-            Connection connection = DriverManager.getConnection(url, username, password);
-            Statement statement = connection.createStatement();
+            ConnDB conn = new ConnDB();
+            Statement statement = conn.conexionMySQL().createStatement();
             ResultSet rs = statement.executeQuery("SELECT * FROM productos");
             
             while (rs.next()) {
@@ -135,7 +127,7 @@ public class ListarProductos{
 
             rs.close();
             statement.close();
-            connection.close();
+            conn.conexionMySQL().close();
 
         } catch (SQLException ex) {
             System.out.println(ex);
@@ -143,16 +135,3 @@ public class ListarProductos{
         return r;
     }
 }
-
-
-/*
-
-try {
-    Class.forName("com.mysql.cj.jdbc.Driver");
-    System.out.println("ConnDB - MySql");
-} catch (ClassNotFoundException ex) {
-    System.out.println("Error, no se ha podido cargar MySQL JDBC Driver:\n"+ex);
-}
-
-// System.out.println("ConnDB - Postgresql");
-*/
