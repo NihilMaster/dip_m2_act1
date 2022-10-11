@@ -25,7 +25,7 @@ public class Dip_m2_act1 extends JFrame{
         w.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
     }
     
-    private void back(){
+    private void back(){ //Factory Method
         Registro m = new Registro(nom,can,val);
         IDataBase db=FactoryConnection.factoryDataBase(m);
         JOptionPane.showMessageDialog(w, "Éxito!");

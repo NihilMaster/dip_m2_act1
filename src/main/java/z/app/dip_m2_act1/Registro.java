@@ -4,7 +4,7 @@ package z.app.dip_m2_act1;
  *
  * @author M
  */
-public class Registro {
+public class Registro { //Prototype
     private String nombre;
     private Integer cantid;
     private Integer valoru;
@@ -25,6 +25,18 @@ public class Registro {
 
     public Integer getValorU() {
         return valoru;
+    }
+
+    public void setNombre(String nombre) {
+        this.nombre = nombre;
+    }
+
+    public void setCantid(Integer cantid) {
+        this.cantid = cantid;
+    }
+
+    public void setValoru(Integer valoru) {
+        this.valoru = valoru;
     }
     
     @Override

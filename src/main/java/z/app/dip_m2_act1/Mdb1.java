@@ -1,12 +1,7 @@
 package z.app.dip_m2_act1;
 
-import com.mysql.cj.xdevapi.PreparableStatement;
-import java.sql.Connection;
-import java.sql.DriverManager;
 import java.sql.PreparedStatement;
-import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.sql.Statement;
 
 /**
  *
@@ -23,8 +18,8 @@ public class Mdb1 implements IDataBase{
                 + "(NOMBRE, CANTIDAD, VALOR_UNITARIO) VALUES"
                 + "(?,?,?)";
         try {
-            ConnDB conn = new ConnDB();
-            PreparedStatement ps = conn.conexionMySQL().prepareStatement(insertTableSQL);
+            ConnMySQL connmy = ConnMySQL.getInstance();
+            PreparedStatement ps = connmy.getCon().prepareStatement(insertTableSQL);
             
             ps.setString(1, db.getNombre());
             ps.setInt(2, db.getCantid());
@@ -33,7 +28,7 @@ public class Mdb1 implements IDataBase{
 
             System.out.println("Record is inserted into PRODUCTOS_MySQL table!");
             ps.close();
-            conn.conexionMySQL().close();
+            // connmy.closeCon();            
 
         } catch (SQLException e) {
 

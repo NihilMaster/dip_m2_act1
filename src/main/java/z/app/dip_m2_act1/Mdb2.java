@@ -1,7 +1,5 @@
 package z.app.dip_m2_act1;
 
-import java.sql.Connection;
-import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.SQLException;
 
@@ -19,8 +17,8 @@ public class Mdb2 implements IDataBase{
                 + "(NOMBRE, CANTIDAD, VALOR_UNITARIO) VALUES"
                 + "(?,?,?)";
         try {
-            ConnDB conn = new ConnDB();
-            PreparedStatement ps = conn.conexionPSQL().prepareStatement(insertTableSQL);
+            ConnPSQL connps = ConnPSQL.getInstance();
+            PreparedStatement ps = connps.getCon().prepareStatement(insertTableSQL);
             
             ps.setString(1, db.getNombre());
             ps.setInt(2, db.getCantid());
@@ -29,7 +27,7 @@ public class Mdb2 implements IDataBase{
 
             System.out.println("Record is inserted into Public.PRODUCTOS_PostgreSQL table!");
             ps.close();
-            conn.conexionPSQL().close();
+            // connps.closeCon();
 
         } catch (SQLException e) {
 

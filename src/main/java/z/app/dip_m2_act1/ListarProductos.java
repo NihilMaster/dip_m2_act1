@@ -5,8 +5,6 @@ import java.awt.Dimension;
 import java.awt.FlowLayout;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
-import java.sql.Connection;
-import java.sql.DriverManager;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
@@ -75,13 +73,11 @@ public class ListarProductos{
     private ArrayList<String[]> postgres(){
         ArrayList<String[]> r = new ArrayList<>();
         try {
-            ConnDB conn = new ConnDB();
-            Statement statement = conn.conexionPSQL().createStatement();
+            ConnPSQL connps = ConnPSQL.getInstance();
+            Statement statement = connps.getCon().createStatement();
             ResultSet rs = statement.executeQuery("SELECT * FROM public.productos");
             
             while (rs.next()) {
-
-                int id = rs.getInt("id");
                 String nombre = rs.getString("nombre");
                 String cantidad = rs.getString("cantidad");
                 Integer valor = rs.getInt("valor_unitario");
@@ -89,12 +85,11 @@ public class ListarProductos{
                 String[] x = new String[3];
                 x[0]=nombre; x[1]=cantidad; x[2]=valor.toString();
                 r.add(x);
-                System.out.println(String.format("%d, %s %s, %d", id, nombre, cantidad, valor));
             }
 
             rs.close();
             statement.close();
-            conn.conexionPSQL().close();
+            connps.closeCon();
         } catch (SQLException ex) {
             System.out.println("Error, no se ha podido cargar PostgreSQL JDBC Driver:\n"+ex);
         }
@@ -103,18 +98,12 @@ public class ListarProductos{
     
     private ArrayList<String[]> mysql(){
         ArrayList<String[]> r = new ArrayList<>();
-        
-        String url = "jdbc:mysql://localhost:3306/dip_m2_act1";
-        String username = "root";
-        String password = "";
         try {
-            ConnDB conn = new ConnDB();
-            Statement statement = conn.conexionMySQL().createStatement();
+            ConnMySQL connmy = ConnMySQL.getInstance();
+            Statement statement = connmy.getCon().createStatement();
             ResultSet rs = statement.executeQuery("SELECT * FROM productos");
             
             while (rs.next()) {
-
-                int id = rs.getInt("id");
                 String nombre = rs.getString("nombre");
                 String cantidad = rs.getString("cantidad");
                 Integer valor = rs.getInt("valor_unitario");
@@ -122,12 +111,11 @@ public class ListarProductos{
                 String[] x = new String[3];
                 x[0]=nombre; x[1]=cantidad; x[2]=valor.toString();
                 r.add(x);
-                System.out.println(String.format("%d, %s %s, %d", id, nombre, cantidad, valor));
             }
 
             rs.close();
             statement.close();
-            conn.conexionMySQL().close();
+            connmy.closeCon();
 
         } catch (SQLException ex) {
             System.out.println(ex);

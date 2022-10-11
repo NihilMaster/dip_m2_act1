@@ -8,6 +8,7 @@ import java.sql.Statement;
 import java.util.HashMap;
 import java.util.Map;
 import javax.swing.JFrame;
+import javax.swing.JLabel;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
 import javax.swing.JTextField;
@@ -22,9 +23,15 @@ public class Inventario {
     
     private JTable table_sum = new JTable();
     private Integer total=0;
-    private JTextField txt = new JTextField();
+    private final JTextField txt = new JTextField();
+    
+    // ConcreteObserver otxt;
+    // ConcreteObservable observable;
 
     public Inventario() {
+        // otxt=new ConcreteObserver(txt);
+        // observable=new ConcreteObservable(otxt);
+        
         JFrame lista = new JFrame();
         lista.setLayout(new FlowLayout());
         
@@ -40,9 +47,11 @@ public class Inventario {
         
         JScrollPane scrollPane = new JScrollPane(table_sum);
         lista.add(scrollPane, BorderLayout.CENTER);
-        lista.add(txt);
+        lista.add(new JLabel("Total"));
+        lista.add(txt, BorderLayout.CENTER);
         lista.pack();
         lista.setVisible(true);
+        lista.setSize(500,500); 
         lista.setDefaultCloseOperation(JFrame.HIDE_ON_CLOSE );
         
     }
@@ -50,15 +59,14 @@ public class Inventario {
     private Map<String, Integer> mysql(){
         Map<String, Integer> m = new HashMap<>();
         try {
-            ConnDB conn = new ConnDB();
-            Statement statement = conn.conexionMySQL().createStatement();
+            ConnMySQL connmy = ConnMySQL.getInstance();
+            Statement statement = connmy.getCon().createStatement();
             
             ResultSet rs1 = statement.executeQuery("SELECT nombre, SUM(cantidad) as cantidad FROM `productos` GROUP BY nombre;");
             while (rs1.next()) {
                 String nombre = rs1.getString("nombre");
                 Integer cantidad = rs1.getInt("cantidad");
                 m.put(nombre, cantidad);
-                System.out.println(String.format("%s, %d", nombre, cantidad));
             }
             
             ResultSet rs2 = statement.executeQuery("SELECT SUM(valor_unitario*cantidad) Total FROM productos;");
@@ -69,7 +77,7 @@ public class Inventario {
  
             rs1.close(); rs1.close();
             statement.close();
-            conn.conexionMySQL().close();
+            // connmy.closeCon();
 
         } catch (SQLException ex) {
             System.out.println(ex);
@@ -81,15 +89,14 @@ public class Inventario {
     private Map<String, Integer> psql() {
         Map<String, Integer> m = new HashMap<>();
         try {
-            ConnDB conn = new ConnDB();
-            Statement statement = conn.conexionPSQL().createStatement();
+            ConnPSQL connps = ConnPSQL.getInstance();
+            Statement statement = connps.getCon().createStatement();
             
             ResultSet rs1 = statement.executeQuery("SELECT nombre, SUM(cantidad) cantidad FROM public.productos GROUP BY 1;");
             while (rs1.next()) {
                 String nombre = rs1.getString("nombre");
                 Integer cantidad = rs1.getInt("cantidad");
                 m.put(nombre, cantidad);
-                System.out.println(String.format("%s, %d", nombre, cantidad));
             }
             
             ResultSet rs2 = statement.executeQuery("SELECT SUM(valor_unitario*cantidad) Total FROM public.productos;");
@@ -99,7 +106,7 @@ public class Inventario {
 
             rs1.close(); rs2.close();
             statement.close();
-            conn.conexionPSQL().close();
+            connps.closeCon();
         } catch (SQLException ex) {
             System.out.println("Error, no se ha podido cargar PostgreSQL JDBC Driver:\n"+ex);
         }
