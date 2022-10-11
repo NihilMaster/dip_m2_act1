@@ -9,8 +9,10 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.ArrayList;
+import javax.swing.BoxLayout;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
+import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
 import javax.swing.table.DefaultTableModel;
@@ -49,13 +51,19 @@ public class ListarProductos{
         
         table_psql.setPreferredScrollableViewportSize(new Dimension(250, 100));
         JScrollPane scrollPane_1 = new JScrollPane(table_psql);
-        lista.add(new JLabel("Motor DB 1"));
-        lista.getContentPane().add(scrollPane_1, BorderLayout.CENTER);  
+        JPanel m1 = new JPanel();
+        m1.setLayout(new BoxLayout(m1, BoxLayout.Y_AXIS));
+        m1.add(new JLabel("Motor DB 1"));
+        m1.add(scrollPane_1, BorderLayout.CENTER);  
+        lista.add(m1);
         
         table_mysql.setPreferredScrollableViewportSize(new Dimension(250, 100));
         JScrollPane scrollPane2 = new JScrollPane(table_mysql);
-        lista.getContentPane().add(new JLabel("Motor DB 2"));
-        lista.getContentPane().add(scrollPane2, BorderLayout.CENTER);  
+        JPanel m2 = new JPanel();
+        m2.setLayout(new BoxLayout(m2, BoxLayout.Y_AXIS));
+        m2.add(new JLabel("Motor DB 2"));
+        m2.add(scrollPane2, BorderLayout.CENTER);  
+        lista.add(m2);
         
         lista.addWindowListener(new WindowAdapter() {           
             @Override
@@ -88,8 +96,8 @@ public class ListarProductos{
             }
 
             rs.close();
-            statement.close();
-            connps.closeCon();
+            // statement.close();
+            // connps.closeCon();
         } catch (SQLException ex) {
             System.out.println("Error, no se ha podido cargar PostgreSQL JDBC Driver:\n"+ex);
         }
@@ -114,8 +122,8 @@ public class ListarProductos{
             }
 
             rs.close();
-            statement.close();
-            connmy.closeCon();
+            // statement.close();
+            // connmy.closeCon();
 
         } catch (SQLException ex) {
             System.out.println(ex);

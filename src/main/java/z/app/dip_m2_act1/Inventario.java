@@ -1,19 +1,10 @@
 package z.app.dip_m2_act1;
 
-import java.awt.BorderLayout;
-import java.awt.FlowLayout;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.HashMap;
 import java.util.Map;
-import javax.swing.JFrame;
-import javax.swing.JLabel;
-import javax.swing.JScrollPane;
-import javax.swing.JTable;
-import javax.swing.JTextField;
-import javax.swing.table.DefaultTableModel;
-import javax.swing.table.TableModel;
 
 /**
  *
@@ -21,39 +12,23 @@ import javax.swing.table.TableModel;
  */
 public class Inventario {
     
-    private JTable table_sum = new JTable();
     private Integer total=0;
-    private final JTextField txt = new JTextField();
-    
-    // ConcreteObserver otxt;
-    // ConcreteObservable observable;
+    private final Map<String, Integer> m_final = new HashMap<>();
 
-    public Inventario() {
-        // otxt=new ConcreteObserver(txt);
-        // observable=new ConcreteObservable(otxt);
-        
-        JFrame lista = new JFrame();
-        lista.setLayout(new FlowLayout());
-        
+    public Inventario() {        
         Map<String, Integer> m_mysql = mysql();
         Map<String, Integer> m_psql = psql();
-        Map<String, Integer> m_final = new HashMap<>();
         m_final.putAll(m_psql);
         m_final.putAll(m_mysql);
         System.out.printf("Total: %d\n",total);
-        
-        table_sum = new JTable(toTableModel(m_final));
-        txt.setText(total.toString());
-        
-        JScrollPane scrollPane = new JScrollPane(table_sum);
-        lista.add(scrollPane, BorderLayout.CENTER);
-        lista.add(new JLabel("Total"));
-        lista.add(txt, BorderLayout.CENTER);
-        lista.pack();
-        lista.setVisible(true);
-        lista.setSize(500,500); 
-        lista.setDefaultCloseOperation(JFrame.HIDE_ON_CLOSE );
-        
+    }
+
+    public Integer getTotal() {
+        return total;
+    }
+    
+    public Map<String, Integer> getM(){
+        return m_final;
     }
     
     private Map<String, Integer> mysql(){
@@ -76,7 +51,7 @@ public class Inventario {
 
  
             rs1.close(); rs1.close();
-            statement.close();
+            // statement.close();
             // connmy.closeCon();
 
         } catch (SQLException ex) {
@@ -105,22 +80,12 @@ public class Inventario {
             System.out.printf("Total(Psql): %d\n",rs2.getInt("Total"));
 
             rs1.close(); rs2.close();
-            statement.close();
-            connps.closeCon();
+            // statement.close();
+            // connps.closeCon();
         } catch (SQLException ex) {
             System.out.println("Error, no se ha podido cargar PostgreSQL JDBC Driver:\n"+ex);
         }
         
         return m;
     }
-    
-    public static TableModel toTableModel(Map<?,?> map) {
-        DefaultTableModel model = new DefaultTableModel(
-            new Object[] { "Producto", "Cantidad" }, 0
-        );
-        for (Map.Entry<?,?> entry : map.entrySet()) {
-            model.addRow(new Object[] { entry.getKey(), entry.getValue() });
-        }
-    return model;
-}
 }
