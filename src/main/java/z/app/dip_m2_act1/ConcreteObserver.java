@@ -19,10 +19,12 @@ public class ConcreteObserver implements IObserver{
 
     @Override
     public void notify_(String msj) {
-        if(component instanceof JButton btn){
+        if(component instanceof JButton ){
+            JButton btn = (JButton) component;
             btn.setText(msj+" De click aqui");
         }
-        if(component instanceof JLabel lbl){
+        if(component instanceof JLabel){
+            JLabel lbl = (JLabel) component;
             lbl.setText("Bienvenido "+msj);
         }
 

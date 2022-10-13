@@ -9,9 +9,9 @@ import java.sql.SQLException;
  * @author M
  */
 public class ConnPSQL {
-    private static final String url_psql="jdbc:postgresql://190.60.242.160:5432/desarrollo";
+    private static final String url_psql="jdbc:postgresql://localhost:5432/dip_m2_act1";
     private static final String usr_psql ="postgres";
-    private static final String pas_psql="clinicaDEV-2022*";
+    private static final String pas_psql="1234";
     private static Connection conex = null;        
     private static ConnPSQL con = null;
 
