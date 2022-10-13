@@ -41,7 +41,7 @@ public class Dip_m2_act1 extends JFrame{
     private void back(){ //Factory Method
         Registro m = new Registro(nom,can,val);
         IDataBase db=FactoryConnection.factoryDataBase(m);
-        JOptionPane.showMessageDialog(w, "Éxito!");
+        //JOptionPane.showMessageDialog(w, "Éxito!");
         no_tf.setText(""); ca_tf.setText(""); vu_tf.setText("");
         db.getName();
     }
@@ -58,7 +58,7 @@ public class Dip_m2_act1 extends JFrame{
         p1.add(new JLabel("Cantidad: "));
         this.ca_tf=new JTextField();
         p1.add(ca_tf);
-        p1.add(new JLabel("ValorU: "));
+        p1.add(new JLabel("Valor Unitario: "));
         this.vu_tf=new JTextField();
         p1.add(vu_tf);
         this.a_b=new JButton("Aceptar");
